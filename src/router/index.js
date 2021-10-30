@@ -59,76 +59,36 @@ export const constantRouterMap = [{
     component: () => import('@/views/errorPage/401'),
     hidden: true
   },
+
+
   {
-    path: '/guide',
+    path: '/aticle',
     component: Layout,
-    redirect: '/guide/index',
-    children: [{
-      path: 'index',
-      component: () => import('@/views/guide/index'),
-      name: 'Guide',
-      meta: {
-        title: 'guide',
-        icon: 'guide',
-        noCache: true
-      }
-    }]
-  }
-]
-export default new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({
-    y: 0
-  }),
-  routes: constantRouterMap
-})
-export const asyncRouterMap = [{
-    path: '/error',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'ErrorPages',
+    redirect: 'aticle/list',
+    name: 'aticle',
     meta: {
-      title: 'errorPages',
-      icon: '404'
+      title: '文章中心',
+      icon: 'list'
     },
     children: [{
-        path: '401',
-        component: () => import('@/views/errorPage/401'),
-        name: 'Page401',
+        path: 'add',
+        component: () => import('@/views/aticle/add'),
+        name: 'add',
         meta: {
-          title: 'page401',
+          title: '新增文章',
           noCache: true
         }
       },
       {
-        path: '404',
-        component: () => import('@/views/errorPage/404'),
-        name: 'Page404',
+        path: 'list',
+        component: () => import('@/views/aticle/add'),
+        name: 'list',
         meta: {
-          title: 'page404',
+          title: '文章列表',
           noCache: true
         }
       },
     ]
-  },
-  {
-    path: '/tag',
-    component: Layout,
-    redirect: 'tag/index',
-    name: 'tag',
-    meta: {
-      title: '分类管理',
-      icon: 'form'
-    },
-    children: [{
-      path: 'index',
-      component: () => import('@/views/category/index'),
-      name: 'list',
-      meta: {
-        title: '分类管理',
-        noCache: true
-      }
-    }]
   },
   {
     path: '/category',
@@ -150,34 +110,103 @@ export const asyncRouterMap = [{
     }]
   },
   {
-    path: '/permission',
+    path: '/tag',
     component: Layout,
-    redirect: '/permission/index',
-    alwaysShow: true, // will always show the root menu
+    redirect: 'tag/index',
+    name: 'tag',
     meta: {
-      title: 'permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      title: '分类管理',
+      icon: 'form'
     },
     children: [{
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+      path: 'index',
+      component: () => import('@/views/category/index'),
+      name: 'list',
+      meta: {
+        title: '分类管理',
+        noCache: true
+      }
+    }]
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
+]
+export default new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({
+    y: 0
+  }),
+  routes: constantRouterMap
+})
+export const asyncRouterMap = [{
+    path: '/aticle',
+    component: Layout,
+    redirect: 'aticle/list',
+    name: 'aticle',
+    meta: {
+      title: '文章中心',
+      icon: 'list'
+    },
+    children: [{
+        path: 'add',
+        component: () => import('@/views/aticle/add'),
+        name: 'add',
         meta: {
-          title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: '新增文章',
+          noCache: true
         }
       },
       {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'list',
+        component: () => import('@/views/aticle/add'),
+        name: 'list',
         meta: {
-          title: 'directivePermission'
-          // if do not set roles, means: this page does not require permission
+          title: '文章列表',
+          noCache: true
         }
-      }
+      },
     ]
+  },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: 'category/index',
+    name: 'category',
+    meta: {
+      title: '分类管理',
+      icon: 'people'
+    },
+    children: [{
+      path: 'index',
+      component: () => import('@/views/tag/index'),
+      name: 'list',
+      meta: {
+        title: '标签列表',
+        noCache: true
+      }
+    }]
+  },
+  {
+    path: '/tag',
+    component: Layout,
+    redirect: 'tag/index',
+    name: 'tag',
+    meta: {
+      title: '分类管理',
+      icon: 'form'
+    },
+    children: [{
+      path: 'index',
+      component: () => import('@/views/category/index'),
+      name: 'list',
+      meta: {
+        title: '分类管理',
+        noCache: true
+      }
+    }]
   },
   {
     path: '*',

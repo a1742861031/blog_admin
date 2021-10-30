@@ -21,10 +21,11 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
+    let token = getToken();
     // Do something before request is sent
-    if (store.getters.token) {
+    if (token) {
       // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
-      config.headers['X-Token'] = getToken()
+      config.headers['token'] = getToken()
     }
     return config
   },
