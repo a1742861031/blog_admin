@@ -8,18 +8,8 @@ import {
   setToken,
   removeToken
 } from '@/utils/auth'
-import Cookies from 'js-cookie'
-const getUserInformation = () => {
-  let token = getToken();
-  getUserInfo(token).then(response => {
-    if (response.data.code == 200) {
-      const data = response.data.data.user;
-      Cookies.set("user", data);
 
-    }
 
-  }).catch(error => {})
-}
 const user = {
   state: {
     user: '',
@@ -75,7 +65,6 @@ const user = {
             commit('SET_TOKEN', data.token)
             setToken(data.token)
             resolve();
-            getUserInformation();
           }
           reject();
         }).catch(error => {

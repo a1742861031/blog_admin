@@ -11,7 +11,7 @@
             <div class="card-panel-text">
               文章数
             </div>
-            <count-to :start-val="0" :end-val="20" :duration="2600" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="dataInfo.pageCount" :duration="2600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -24,7 +24,7 @@
             <div class="card-panel-text">
               留言数
             </div>
-            <count-to :start-val="0" :end-val="80" :duration="3000" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="dataInfo.messageCount" :duration="3000" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -37,7 +37,7 @@
             <div class="card-panel-text">
               分类数
             </div>
-            <count-to :start-val="0" :end-val="30" :duration="3200" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="dataInfo.categoryCount" :duration="3200" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -50,7 +50,7 @@
             <div class="card-panel-text">
               标签数
             </div>
-            <count-to :start-val="0" :end-val="30" :duration="3600" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="dataInfo.tagCount" :duration="3600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -84,7 +84,7 @@
               </div>
               <div class="user-bio-section-body">
                 <div class="text-muted">
-                  一位新时代农民工
+                  {{userInfo.introduce}}
                 </div>
               </div>
             </div>
@@ -103,10 +103,12 @@
         <el-card>
           <div class="block">
             <el-timeline>
-              <el-timeline-item v-for="(item,index) of timeline" :key="index" :timestamp="item.timestamp" placement="top">
+              <el-timeline-item v-for="(item,index) of blogInfo" :key="index" :timestamp="item.createTime" placement="top">
                 <el-card>
-                  <h4>{{ item.title }}</h4>
-                  <p>{{ item.content }}</p>
+                  <a @click="gotoEditPage(item.blogId)">
+                    <h4>{{ item.blogTitle }}</h4>
+                  </a>
+                  <p>{{ item.blogPreface }}</p>
                 </el-card>
               </el-timeline-item>
             </el-timeline>
@@ -121,7 +123,11 @@
 <script>
 import CountTo from 'vue-count-to'
 import PanThumb from '@/components/PanThumb'
-import Cookies from 'js-cookie'
+import { getIndexPageData, getIndexBlog,getUserInfo} from "../../api/AdminUser";
+import {
+  getToken,
+} from '@/utils/auth'
+
 export default {
   components: {
     CountTo,
@@ -129,19 +135,11 @@ export default {
   },
   data () {
     return {
-      timeline: [
-        {
-          timestamp: '2021/10/30',
-          title: '发布文章',
-          content: 'Redis的基本使用'
-        },
-        {
-          timestamp: '2021/10/29',
-          title: '发布文章',
-          content: 'Mysql调优'
-        },
-      ],
+
       userInfo: {},
+      dataInfo: {},
+      blogInfo: [],
+      limit: 3
     }
   },
   props: {
@@ -158,9 +156,27 @@ export default {
     }
   },
   created () {
-    let userInfo = Cookies.get("user");
-    this.userInfo = JSON.parse(userInfo);
-    console.log(this.userInfo);
+    this.getUserInformation();
+    getIndexPageData().then(res => {
+      this.dataInfo = res.data.data.item
+    });
+    getIndexBlog(this.limit).then(res => {
+      this.blogInfo = res.data.data.item;
+    })
+  },
+  methods: {
+    gotoEditPage (blogId) {
+      this.$router.push(`/aticle/update/${blogId}`)
+    },
+    getUserInformation () {
+      let token = getToken();
+      getUserInfo(token).then(response => {
+        if (response.data.code == 200) {
+          this.userInfo = response.data.data.user;
+        }
+
+      }).catch(error => { })
+    }
   }
 }
 </script>

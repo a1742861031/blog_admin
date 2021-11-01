@@ -19,11 +19,4 @@ export function logout() {
     })
 }
 
-export function getUserInfo(token) {
-    return request({
-        url: 'http://localhost:8000/user/getUerInfo',
-        method: 'get',
-        params: { token }
-    })
-}
 

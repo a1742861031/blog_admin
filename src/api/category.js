@@ -7,6 +7,12 @@ export function getCategoryList() {
   })
 }
 
+export function getCategoryById(id) {
+  return request({
+    url: `category/${id}`,
+    method: 'get'
+  })
+}
 
 export function queryCategoryList(name) {
   return request({

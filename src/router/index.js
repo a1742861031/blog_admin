@@ -72,7 +72,7 @@ export const constantRouterMap = [{
     },
     children: [{
         path: 'add',
-        component: () => import('@/views/aticle/add'),
+        component: () => import('@/views/aticle/addupdate'),
         name: 'add',
         meta: {
           title: '新增文章',
@@ -80,8 +80,28 @@ export const constantRouterMap = [{
         }
       },
       {
+        path: 'update/:id',
+        component: () => import('@/views/aticle/addupdate'),
+        name: 'update',
+        hidden: true,
+        meta: {
+          title: '修改文章',
+          noCache: true
+        },
+
+      },
+      {
+        path: 'comment',
+        component: () => import('@/views/aticle/comment'),
+        name: 'comment',
+        meta: {
+          title: '评论管理',
+          noCache: true
+        }
+      },
+      {
         path: 'list',
-        component: () => import('@/views/aticle/add'),
+        component: () => import('@/views/aticle/index'),
         name: 'list',
         meta: {
           title: '文章列表',
@@ -152,7 +172,7 @@ export const asyncRouterMap = [{
     },
     children: [{
         path: 'add',
-        component: () => import('@/views/aticle/add'),
+        component: () => import('@/views/aticle/addupdate'),
         name: 'add',
         meta: {
           title: '新增文章',
@@ -160,8 +180,27 @@ export const asyncRouterMap = [{
         }
       },
       {
+        path: 'comment',
+        component: () => import('@/views/aticle/comment'),
+        name: 'comment',
+        meta: {
+          title: '评论管理',
+          noCache: true
+        }
+      },
+      {
+        path: 'update/:id',
+        component: () => import('@/views/aticle/addupdate'),
+        name: 'update',
+        hidden: true,
+        meta: {
+          title: '修改文章',
+          noCache: true
+        }
+      },
+      {
         path: 'list',
-        component: () => import('@/views/aticle/add'),
+        component: () => import('@/views/aticle/index'),
         name: 'list',
         meta: {
           title: '文章列表',
